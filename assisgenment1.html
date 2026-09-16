@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Creature Codex — Sparkit</title>
+<style>
+  :root{
+    --yellow-dark: #F5B400;
+    --yellow-light: #FBE6A6;
+    --ink: #171308;
+    --ink-soft: rgba(23,19,8,0.62);
+    --card-radius: 28px;
+  }
+
+  *{ box-sizing: border-box; }
+
+  body{
+    margin:0;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#EDEDED;
+    font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+    padding: 24px;
+  }
+
+  .card{
+    position:relative;
+    width:min(1120px, 100%);
+    aspect-ratio: 1543 / 1013;
+    border-radius: var(--card-radius);
+    overflow:hidden;
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.18);
+  }
+
+  .panel-left{ background: var(--yellow-dark); }
+  .panel-right{ background: var(--yellow-light); }
+
+  .nav{
+    position:absolute;
+    top:6%;
+    left:0;
+    right:0;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding: 0 4.5%;
+    z-index: 5;
+  }
+
+  .logo{
+    font-family: Georgia, 'Times New Roman', serif;
+    font-weight: 700;
+    font-style: italic;
+    font-size: clamp(20px, 2.4vw, 30px);
+    color: #2E5FBF;
+    -webkit-text-stroke: 1px #FFD84D;
+    letter-spacing: 0.5px;
+    user-select:none;
+  }
+
+  .menu-btn{
+    display:flex;
+    flex-direction:column;
+    gap: 6px;
+    background:none;
+    border:none;
+    cursor:pointer;
+    padding: 6px;
+  }
+  .menu-btn span{
+    width: 30px;
+    height: 3px;
+    background: var(--ink);
+    border-radius: 2px;
+  }
+
+  .content{
+    position:relative;
+    z-index: 4;
+    padding: 0 0 0 4.5%;
+    padding-top: 24%;
+    max-width: 46%;
+  }
+
+  .eyebrow{
+    font-size: clamp(11px, 1vw, 13px);
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: var(--ink);
+    margin: 0 0 14px 0;
+  }
+
+  h1{
+    font-size: clamp(48px, 7vw, 96px);
+    line-height: 0.95;
+    margin: 0 0 20px 0;
+    font-weight: 800;
+    color: var(--ink);
+    letter-spacing: -1px;
+  }
+
+  .desc{
+    font-size: clamp(14px, 1.05vw, 16px);
+    line-height: 1.6;
+    color: var(--ink-soft);
+    max-width: 380px;
+    margin: 0 0 40px 0;
+  }
+
+  .pager{
+    display:flex;
+    align-items:center;
+    gap: 16px;
+  }
+  .pager .line{
+    width: 40px;
+    height: 2px;
+    background: var(--ink);
+  }
+  .pager .count{
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--ink);
+    letter-spacing: 1px;
+  }
+
+  .badge-mark{
+    position:absolute;
+    left: 4%;
+    bottom: -6%;
+    width: 24%;
+    aspect-ratio: 1/1;
+    opacity: 0.16;
+    pointer-events:none;
+  }
+  .badge-mark svg{ width:100%; height:100%; display:block; }
+
+  .creature-wrap{
+    position:absolute;
+    right: 4%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 46%;
+    z-index: 3;
+    filter: drop-shadow(0 20px 30px rgba(0,0,0,0.15));
+  }
+  .creature-wrap svg{ width:100%; height:auto; display:block; }
+
+  .dots{
+    position:absolute;
+    right: 3.2%;
+    top: 50%;
+    transform: translateY(-50%);
+    display:flex;
+    flex-direction:column;
+    gap: 10px;
+    z-index: 6;
+  }
+  .dots button{
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    border: none;
+    padding: 0;
+    background: rgba(23,19,8,0.28);
+    cursor:pointer;
+    transition: background 0.25s, transform 0.25s;
+  }
+  .dots button.active{
+    background: var(--ink);
+    transform: scale(1.2);
+  }
+  .dots button:hover{ background: rgba(23,19,8,0.55); }
+
+  @media (max-width: 780px){
+    .card{
+      grid-template-columns: 1fr;
+      aspect-ratio: auto;
+      min-height: 640px;
+    }
+    .panel-right{
+      position:absolute;
+      inset:0;
+      clip-path: none;
+    }
+    .content{
+      max-width: 90%;
+      padding-top: 130px;
+      padding-left: 6%;
+      padding-right: 6%;
+    }
+    h1{ font-size: 56px; }
+    .creature-wrap{
+      position:relative;
+      right:auto;
+      top:auto;
+      transform:none;
+      width: 70%;
+      margin: 20px auto 0;
+    }
+    .dots{ display:none; }
+    .badge-mark{ display:none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="card" id="card">
+  <div class="panel-left"></div>
+  <div class="panel-right"></div>
+
+  <nav class="nav">
+    <div class="logo">Sparkit</div>
+    <button class="menu-btn" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="content">
+    <p class="eyebrow" id="eyebrow">CREATURE CODEX · VOL I</p>
+    <h1 id="title">Sparkit</h1>
+    <p class="desc" id="desc">
+      Sparkit is a Spark-type creature first catalogued in the Vol. I codex.
+      Small, round, and endlessly energetic, Sparkits are covered in soft
+      golden fur that crackles faintly with static.
+    </p>
+    <div class="pager">
+      <span class="line"></span>
+      <span class="count" id="count">01 / 08</span>
+    </div>
+  </div>
+
+  <div class="badge-mark" aria-hidden="true">
+    <svg viewBox="0 0 200 200">
+      <circle cx="100" cy="100" r="92" fill="none" stroke="#171308" stroke-width="10"/>
+      <line x1="8" y1="100" x2="192" y2="100" stroke="#171308" stroke-width="10"/>
+      <circle cx="100" cy="100" r="30" fill="#FBE6A6" stroke="#171308" stroke-width="10"/>
+    </svg>
+  </div>
+
+  <div class="creature-wrap" aria-hidden="true">
+    <!-- Original generic mascot illustration (not based on any existing character) -->
+    <svg viewBox="0 0 400 420" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="200" cy="330" rx="150" ry="70" fill="#F2A900" opacity="0.55"/>
+      <path d="M120 60 L150 170 L95 160 Z" fill="#FFCC33" stroke="#1a1a1a" stroke-width="6" stroke-linejoin="round"/>
+      <path d="M100 70 L128 155" stroke="#1a1a1a" stroke-width="10" stroke-linecap="round" fill="none"/>
+      <path d="M280 60 L250 170 L305 160 Z" fill="#FFCC33" stroke="#1a1a1a" stroke-width="6" stroke-linejoin="round"/>
+      <path d="M300 70 L272 155" stroke="#1a1a1a" stroke-width="10" stroke-linecap="round" fill="none"/>
+      <ellipse cx="200" cy="260" rx="150" ry="140" fill="#FFCC33" stroke="#1a1a1a" stroke-width="7"/>
+      <ellipse cx="140" cy="240" rx="16" ry="20" fill="#1a1a1a"/>
+      <ellipse cx="260" cy="240" rx="16" ry="20" fill="#1a1a1a"/>
+      <circle cx="146" cy="234" r="5" fill="#fff"/>
+      <circle cx="266" cy="234" r="5" fill="#fff"/>
+      <ellipse cx="95" cy="270" rx="24" ry="18" fill="#E8482C"/>
+      <ellipse cx="305" cy="270" rx="24" ry="18" fill="#E8482C"/>
+      <path d="M175 285 Q200 310 225 285 Q225 300 200 305 Q175 300 175 285 Z" fill="#7A2020"/>
+      <path d="M30 260 Q10 250 15 220" stroke="#1a1a1a" stroke-width="10" fill="none" stroke-linecap="round"/>
+      <path d="M370 260 Q392 235 380 200 L400 190 L390 230 L410 245 L385 250 Z" fill="#8B5A2B" stroke="#1a1a1a" stroke-width="6" stroke-linejoin="round"/>
+      <path d="M120 350 L110 385 L140 385 Z" fill="#FFCC33" stroke="#1a1a1a" stroke-width="6" stroke-linejoin="round"/>
+      <path d="M280 350 L270 385 L300 385 Z" fill="#FFCC33" stroke="#1a1a1a" stroke-width="6" stroke-linejoin="round"/>
+    </svg>
+  </div>
+
+  <div class="dots" id="dots"></div>
+</div>
+
+<script>
+  const creatures = [
+    { name: "Sparkit", type: "SPARK-TYPE · VOL I", desc: "Sparkit is a Spark-type creature first catalogued in the Vol. I codex. Small, round, and endlessly energetic, Sparkits are covered in soft golden fur that crackles faintly with static." },
+    { name: "Emberpup", type: "FLAME-TYPE · VOL I", desc: "Emberpup keeps a tiny flame burning at the tip of its tail. When startled, the flame flares brighter, and its whole body warms to the touch." },
+    { name: "Tidalfin", type: "WAVE-TYPE · VOL I", desc: "Tidalfin glides through shallow reefs using its fan-like fins. It hums a low tone that calms other sea creatures nearby." },
+    { name: "Mossling", type: "LEAF-TYPE · VOL I", desc: "Mossling grows tiny sprouts along its back that bloom once a season, filling forest clearings with a faint floral scent." },
+    { name: "Duskwing", type: "SHADE-TYPE · VOL I", desc: "Duskwing is most active at twilight, gliding silently between rooftops. Its wings absorb light rather than reflect it." },
+    { name: "Boulderox", type: "STONE-TYPE · VOL I", desc: "Boulderox has a thick, craggy hide that hardens further with age, making older specimens nearly indistinguishable from rock outcrops." },
+    { name: "Glimmox", type: "CRYSTAL-TYPE · VOL I", desc: "Glimmox's body is studded with small mineral deposits that catch the light, making it a favorite among collectors and researchers alike." },
+    { name: "Frostail", type: "CHILL-TYPE · VOL I", desc: "Frostail's breath cools the air around it by several degrees. It prefers high altitudes where frost forms naturally overnight." }
+  ];
+
+  const eyebrowEl = document.getElementById('eyebrow');
+  const titleEl = document.getElementById('title');
+  const descEl = document.getElementById('desc');
+  const countEl = document.getElementById('count');
+  const dotsEl = document.getElementById('dots');
+
+  let current = 0;
+
+  function pad(n){ return n < 10 ? '0' + n : '' + n; }
+
+  function render(){
+    const c = creatures[current];
+    eyebrowEl.textContent = c.type;
+    titleEl.textContent = c.name;
+    descEl.textContent = c.desc;
+    countEl.textContent = pad(current + 1) + ' / ' + pad(creatures.length);
+    [...dotsEl.children].forEach((d, i) => d.classList.toggle('active', i === current));
+  }
+
+  creatures.forEach((_, i) => {
+    const b = document.createElement('button');
+    if(i === 0) b.classList.add('active');
+    b.setAttribute('aria-label', 'Show entry ' + (i+1));
+    b.addEventListener('click', () => { current = i; render(); });
+    dotsEl.appendChild(b);
+  });
+
+  render();
+
+  // Optional: auto-advance every 5s, pause on hover
+  let timer = setInterval(next, 5000);
+  function next(){ current = (current + 1) % creatures.length; render(); }
+  document.getElementById('card').addEventListener('mouseenter', () => clearInterval(timer));
+  document.getElementById('card').addEventListener('mouseleave', () => { timer = setInterval(next, 5000); });
+</script>
+
+</body>
+</html>

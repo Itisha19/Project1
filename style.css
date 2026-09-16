@@ -1,0 +1,87 @@
+*{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,body{
+    height:100%;
+    width:100%;
+}
+
+main{
+    height:100%;
+    width: 100%;
+    background-color: black;
+    /*display:flex;
+    align-items: center;
+    justify-content: center;
+    gap:20px;*/
+    display:grid;
+    grid-template-columns: 22% 10% calc(100%-81%) 25% 22% ;
+    grid-template-rows: 29% 26% calc(100%-93%) 18% 20%;
+    grid-template-areas: 
+    "left-top top-center-left top-center-left top-center-right right-top"
+    "left-top center center center right-top"
+    "left-bottom center center center right-top"
+    "left-bottom center center center right-bottom"
+    "left-bottom bottom-center-left bottom-center-right bottom-center-right right-bottom "
+    ;
+    gap:10px;
+    
+}
+.left-top{
+    background-color: blue;
+    grid-area:left-top ;
+    border: 1px solid white;
+    border-radius: 5px;
+}
+.left-bottom{
+    background-color: palevioletred;
+    grid-area: left-bottom;
+    border: 1px solid white;
+    border-radius: 5px;
+}
+.right-top{
+    background-color: rgb(0, 255, 183);
+    grid-area: right-top;
+     border: 1px solid white;
+    border-radius: 5px;
+}
+.right-bottom{
+    background-color: blueviolet;
+    grid-area: right-bottom;
+     border: 1px solid white;
+    border-radius: 5px;
+}
+.center{
+    background-color: brown;
+    grid-area: center;
+     border: 1px solid white;
+    border-radius: 5px;
+}
+.top-center-left{
+    background-color: rgb(255, 143, 6);
+    grid-area: top-center-left;
+     border: 1px solid white;
+    border-radius: 5px;
+
+}
+.top-center-right{
+    background-color: rgb(41, 154, 0);
+    grid-area: top-center-right;
+     border: 1px solid white;
+    border-radius: 5px;
+}
+.bottom-center-left{
+    background-color: rgb(42, 104, 104);
+    grid-area: bottom-center-left;
+     border: 1px solid white;
+    border-radius: 5px;
+}
+.bottom-center-right{
+    background-color: rgb(103, 0, 239);
+    grid-area: bottom-center-right;
+     border: 1px solid white;
+    border-radius: 5px;
+}
